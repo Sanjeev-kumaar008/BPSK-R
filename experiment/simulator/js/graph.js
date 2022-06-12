@@ -68,8 +68,8 @@ function drawAxes() {
 
     ctx.font = "20px Arial";
     ctx.fillStyle = "black";
-    ctx.fillText("Amplitude", 58, 120, 90);
-    ctx.fillText("Time", window.screen.width-200, 530, 70);
+    ctx.fillText("Y-Axis:Amplitude(Volts)", orgx + 10, line_start + 10, 100);
+    ctx.fillText("X-Axis:Timeperiod(ms)", canvas_width - 300, line_end + 13, 170);
     ctx.closePath();
 
 }

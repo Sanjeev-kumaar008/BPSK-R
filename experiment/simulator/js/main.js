@@ -223,8 +223,14 @@ function mouseClicked() {
             else {
                 components.push(node);
                 console.log(components);
-                wireManager.addWire(components);
                 console.log('adding wire from: ', currentStartNode, ' to ', node);
+                const n = components.length;
+                if (validConnection(components[0].name, components[n - 1].name)) {
+                    totalConnection ++;
+                    wireManager.addWire(components);
+                } else {
+                    alert("Invalid Connection. Please check your connections");
+                }
                 currentStartNode = null;
                 components = [];
             }
@@ -248,6 +254,7 @@ function mouseClicked() {
 
     if (!anySelected) { currentSelected = null; console.log('setting curretnSelcted to ', currentSelected); }
 }
+
 
 export function draw() {
     clear();
@@ -280,3 +287,135 @@ window.windowResized = windowResized;
 window.onclick = mouseClicked;
 window.doubleClicked = doubleClicked;
 window.onkeydown = keyPressed;
+
+
+
+const questions = {
+    1: {
+        "question": "In BPSK, the Balanced Modulator can act as",
+        "options": [
+            "Phase Reversing Switch",
+            "Phase Reversing Amplifier",
+            "Phase Propagating Amplifier",
+            "Phase modulating Switch",
+            "Phase Propagating Switch"
+        ],
+        "answer": "Phase Reversing Switch"
+    },
+    2: {
+        "question": "In BPSK, the symbols 1 and 0 are denoted by carrier wave with phase shift of",
+        "options": [
+            "π/2",
+            "2π",
+            "π",
+            "0",
+            "3π/4"
+        ],
+        "answer": "π"
+    },
+    3: {
+        "question": "What is the Minimum Bandwidth in BPSK when Baud rate is Fb/2?",
+        "options": [
+            "Fb",
+            "Fb/2",
+            "4Fb",
+            "2Fb",
+            "Fb/4"
+        ],
+        "answer": "Fb/2"
+    },
+    4: {
+        "question": "The average energy per bit in BPSK is calculated by",
+        "options": [
+            "Average energy symbol/ log2M",
+            "log2M/ Average energy symbol",
+            "Average energy symbol *log2M",
+            "Average energy symbol- log2M",
+            "log2M- Average energy symbol"
+        ],
+        "answer": "0.687V and 8.6mW"
+    }
+};
+
+function generateQuizQuestions() {
+    let quizBody = document.getElementById("quizBody");
+    for (const [qnno, qobj] of Object.entries(questions)) {
+        let question_div = document.createElement("div");
+
+        let question = document.createElement("h5");
+        question.innerHTML = qnno + ') ' + qobj.question;
+
+        question_div.appendChild(question);
+
+        qobj.options.forEach((option) => {
+            let b = document.createElement("input");
+
+            b.type = "radio"
+            b.name = 'qn'+qnno;
+            b.value = option;
+            b.style = "margin-left: 25px";
+            let  c = document.createElement("label");
+            c.for = qnno;
+            c.innerText = option;
+            c.style = "margin-left: 10px";
+            question_div.appendChild(b);
+            question_div.appendChild(c);
+
+            question_div.appendChild(document.createElement("br"));
+        });
+        question_div.appendChild(document.createElement("br"));
+        quizBody.append(question_div);
+    }
+}
+
+function validateQuiz() {
+    console.log('Validate Quiz');
+    const num_questions = Object.entries(questions).length;
+    const questionMap = new Map(Object.entries(questions));
+    console.log(questionMap);
+    for (let i = 1; i <= num_questions; i++) {
+        const name = 'qn' + i;
+        const elements = document.getElementsByName(name);
+        let checked = false;
+        elements.forEach((element) => {
+            if (element.checked)
+                checked = true;
+        });
+        if (!checked) {
+            alert('Answer all questions');
+            return ;
+        }
+    }
+    const labels = document.getElementsByTagName('label');
+    console.log('Labels: ', labels);
+
+    for (let i = 1; i <= num_questions; i++) {
+        const name = 'qn' + i;
+        const elements = document.getElementsByName(name);
+
+        let ans = '';
+        elements.forEach((element) => {
+            if (element.checked) {
+                ans = element.value;
+            }
+        });
+        const correct_ans = questionMap.get(`${i}`).answer;
+        labels.forEach((label) => {
+            if (label.for !== `${i}`)
+                return ;
+            if (label.innerText === correct_ans) {
+                label.style = 'color: green; margin-left: 10px';
+            } else if (label.innerText === ans && ans !== correct_ans) {
+                label.style = 'color: red; margin-left: 10px';
+            }
+        });
+    }
+}
+
+function showQuizes() {
+    $('#quizModal').modal('show');
+    generateQuizQuestions();
+}
+
+document.getElementById('quizbtn').onclick = showQuizes;
+document.getElementById('submitbtn').onclick = validateQuiz;
