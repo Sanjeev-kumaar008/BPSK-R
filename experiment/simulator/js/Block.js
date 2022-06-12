@@ -146,7 +146,8 @@ export class WireManager {
 }
 
 export class Point {
-    constructor(x, y) {
+    constructor(x, y,name) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.r = 15;
@@ -186,7 +187,7 @@ export class BID extends Block {
         };
         this.amplitude = this.amp_slider.value;
         this.frequency = this.freq_slider.value;
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"bido");
         connectionNodes.push(this.output);
     }
 
@@ -220,8 +221,8 @@ export class NRZ extends Block {
         this.sampling_frequency = 0;
         this.sampling_slider = createSlider(0, 5000, 500);
         this.sampling_slider.onchange = this.sampling_slider_change;
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"nrzi");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"nrzo");
         connectionNodes.push(this.input);
         connectionNodes.push(this.output);
     }
@@ -244,8 +245,8 @@ export class NRZ extends Block {
 export class PM extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'PRODUCT\nMODULATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"pmi");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"pmo");
         connectionNodes.push(this.input);
         connectionNodes.push(this.output);
     }
@@ -262,8 +263,8 @@ export class PM extends Block {
 export class LowPassFilter extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'LOW PASS\nFILTER', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"lpi");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"lpo");
     }
 
     draw() {
@@ -273,91 +274,13 @@ export class LowPassFilter extends Block {
     }
 }
 
-export class PM1 extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'PRODUCT\nMODULATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
 
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
-
-export class PM2 extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'PRODUCT\nMODULATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
-
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
-
-export class AD extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'ADDER', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
-
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
-
-export class I1 extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'INTEGRATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
-
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
-
-export class I2 extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'INTEGRATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
-
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
 
 export class PM3 extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'PRODUCT\nMODULATOR', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"pm3i");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"pm3o");
         connectionNodes.push(this.input);
         connectionNodes.push(this.output);
     }
@@ -369,11 +292,13 @@ export class PM3 extends Block {
     }
 }
 
-export class PM4 extends Block {
+// 
+
+export class I1 extends Block {
     constructor (x, y, w, h) {
-        super(x, y, w, h, 'PRODUCT\nMULTIPLIER', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        super(x, y, w, h, 'INTEGRATOR', null, true);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"i1i");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"i1o");
         connectionNodes.push(this.input);
         connectionNodes.push(this.output);
     }
@@ -384,12 +309,18 @@ export class PM4 extends Block {
         this.output.draw();
     }
 }
+
+
+
+
+
+
 
 export class DD1 extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'DECISION\nDEVICE', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"ddi");
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"ddo");
         connectionNodes.push(this.input);
         connectionNodes.push(this.output);
     }
@@ -401,45 +332,17 @@ export class DD1 extends Block {
     }
 }
 
-export class DD2 extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'DEVICE\nDEVICE', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
 
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
 
-export class MUX extends Block {
-    constructor (x, y, w, h) {
-        super(x, y, w, h, 'MULTIPLEXER', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
-    }
 
-    draw() {
-        super.draw();
-        this.input.draw();
-        this.output.draw();
-    }
-}
 
 export class MOD extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'MODULATION', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
+        // this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
+        // this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        // connectionNodes.push(this.input);
+        // connectionNodes.push(this.output);
     }
 
 }
@@ -447,10 +350,10 @@ export class MOD extends Block {
 export class DEMOD extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'DEMODULATION', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
+        // this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
+        // this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        // connectionNodes.push(this.input);
+        // connectionNodes.push(this.output);
     }
 
 }
@@ -481,27 +384,27 @@ export class EMPTY extends Block {
 export class ROUTPUT extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'DEMODULATED\nBPSK OUTPUT', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"reci");
+        // this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
         connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
+        // connectionNodes.push(this.output);
     }
     doubleClickModal() { return 'reconWaveGraph'; }
 
     draw(highlight) {
         super.draw(highlight);
         this.input.draw();
-        this.output.draw();
+        // this.output.draw();
     }
 }
 
 export class OUTPUT extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'MODULATED\nBPSK OUTPUT', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
+        this.input = new Point(this.cx - 7, this.cy + this.ch / 2,"modi");
+        // this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
         connectionNodes.push(this.input);
-        connectionNodes.push(this.output);
+        // connectionNodes.push(this.output);
     }
 
     doubleClickModal() { return 'encodedWaveGraph'; }
@@ -509,16 +412,15 @@ export class OUTPUT extends Block {
     draw(highlight) {
         super.draw(highlight);
         this.input.draw();
-        this.output.draw();
+        // this.output.draw();
     }
 }
 
 export class RSIG extends Block {
     constructor (x, y, w, h) {
         super(x, y, w, h, 'RECEIVED\nMODULATED\nBPSK SIGNAL', null, true);
-        this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
-        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2);
-        connectionNodes.push(this.input);
+        // this.input = new Point(this.cx - 7, this.cy + this.ch / 2);
+        this.output = new Point(this.cx + this.cw + 7, this.cy + this.ch / 2,"reco");
         connectionNodes.push(this.output);
     }
     doubleClickModal() {
@@ -527,7 +429,7 @@ export class RSIG extends Block {
 
     draw(highlight) {
         super.draw(highlight);
-        this.input.draw();
+        // this.input.draw();
         this.output.draw();
     }
 }

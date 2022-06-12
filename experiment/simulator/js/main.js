@@ -1,4 +1,4 @@
-import { BID, NRZ, PM,PM1,PM2,AD, ROUTPUT,I1,I2,PM3,PM4,DD1,DD2,MUX } from './Block.js'
+import { BID, NRZ, PM, ROUTPUT,I1,PM3,DD1 } from './Block.js'
 import { Wire, connectionNodes, WireManager, OUTPUT, RSIG,MOD,DEMOD,CORR,EMPTY } from './Block.js';
 import { drawSourceWave } from './bitwave.js';
 import { drawSampledWave } from './sampledWaveGraph.js';
@@ -18,54 +18,14 @@ function windowResized() {
     });
 }
 
+
+
 function setup_modulation() {
     myblocks.set('modulation', new MOD(40, 32.5, 150, 50));
     myblocks.set('generator', new BID(240-79, 132.5, 200, 100));
     myblocks.set('sampler', new NRZ(546.6-79, 132.5, 200, 100));
     myblocks.set('quantizer', new PM(853.32-79, 132.5, 220, 100));
     myblocks.set('encoder', new OUTPUT(1200-79, 132.5, 220, 100));
-
-    /* FIXME: Find a new way to make the elements responsive to resize */
-    
-    // myblocks.set('line0', new Line((val) => {
-    //     const generator = myblocks.get('generator');
-    //     const sampler = myblocks.get('sampler');
-
-    //     val.x1 = generator.cx + generator.cw;
-    //     val.y1 = generator.cy + generator.ch / 2;
-    //     val.x2 = sampler.cx;
-    //     val.y2 = sampler.cy + sampler.ch / 2;
-    // }, 0, 'x(t)'));
-    
-    // myblocks.set('line1', new Line((val) => {
-    //     const sampler = myblocks.get('sampler');
-    //     const quantizer = myblocks.get('quantizer');
-
-    //     val.x1 = sampler.cx + sampler.cw;
-    //     val.y1 = sampler.cy + sampler.ch / 2;
-    //     val.x2 = quantizer.cx;
-    //     val.y2 = quantizer.cy + quantizer.ch / 2;
-    // }, 0, 'x(nTs)'));
-    
-    // myblocks.set('line8', new Line((val) => {
-    //     const quantizer = myblocks.get('quantizer');
-    //     const encoder = myblocks.get('encoder');
-
-    //     val.x1 = quantizer.cx+quantizer.cw;
-    //     val.y1 = quantizer.cy + quantizer.ch / 2;
-    //     val.x2 = encoder.cx;
-    //     val.y2 = encoder.cy + encoder.ch / 2;
-    // }, 0, 'xq(nTs)'));
-    
-    // myblocks.set('line9', new Line((val) => {
-    //     const encoder = myblocks.get('encoder');
-
-    //     val.x1 = encoder.cx+encoder.cw;
-    //     val.y1 = encoder.cy + encoder.ch / 2;
-    //     val.x2 = encoder.cx+encoder.cw+120;
-    //     val.y2 = encoder.cy + encoder.ch / 2;
-    // }, 0 , "PCM\noutput"));
-    
 }
 
 function setup_demodulation() {
@@ -79,61 +39,40 @@ function setup_demodulation() {
 
     myblocks.set('routput', new ROUTPUT(1400-79, 652.5, 220, 100));
 
-    // myblocks.set('line1dm', new Line((val) => {
-    //     const decoder = myblocks.get('decoder');
-    //     val.x1 = decoder.cx -220;
-    //     val.y1 = decoder.cy + (decoder.ch / 2);
-    //     val.x2 = decoder.cx;
-    //     val.y2 = decoder.cy + (decoder.ch / 2);
-    // }, 0, 'Encoder Output'));
+    }
 
-    // myblocks.set('line2dm', new Line((val) => {
-    //     const decoder = myblocks.get('decoder');
-    //     const reconstructionfilter = myblocks.get('reconstructionfilter');
-    //     val.x1 = decoder.cx + decoder.cw;
-    //     val.y1 = decoder.cy + (decoder.ch / 2);
-    //     val.x2 = reconstructionfilter.cx;
-    //     val.y2 = reconstructionfilter.cy + (reconstructionfilter.ch / 2);
-    // }, 0, 'Decoded Output'));
+    const validConnections = [
+        'bido+nrzi',
+        'nrzo+pmi',
+        'pmo+modi',
+        'reco+pm3i',
+        'pm3o+i1i',
+        "i1o+ddi",
+        "ddo+reci"
+    
+        // 'sao+pm1i',
+        // 'pm1i+sao',
+    
+        
+    
+    ];
 
-    // myblocks.set('line3dm', new Line((val) => {
-    //     const reconstructionfilter = myblocks.get('reconstructionfilter');
-    //     val.x1 = reconstructionfilter.cx + reconstructionfilter.cw;
-    //     val.y1 = reconstructionfilter.cy + (reconstructionfilter.ch / 2);
-    //     val.x2 = reconstructionfilter.cx + reconstructionfilter.cw + 220;
-    //     val.y2 = reconstructionfilter.cy + (reconstructionfilter.ch / 2);
-    // }, 0, 'Reconstructed\nMessage Signal'));
+function validConnection(c1, c2) {
+    const connection1 = c1 + '+' + c2;
+    const connection2 = c2 + '+' + c1;
+    if (validConnections.includes(connection1) || validConnections.includes(connection2)) {
 
-    /*
-    myblocks.set('line2dm', new Line((val) => {
-        const decoder = myblocks.get('decoder');
-        const filter = myblocks.get('predictionfilter');
-        val.x1 = decoder.cx + (filter.cx - decoder.cx) * 0.5;
-        val.y1 = decoder.cy + (decoder.ch / 2);
-        val.x2 = filter.cx;
-        val.y2 = decoder.cy + (decoder.ch / 2);
-        console.log(val);
-    }, 0, 'Decoded Signal'));
+        console.log('valid connection');
+        return true;
+    }
+        console.log('invalid connection');
+    return false;
+}
+let totalConnection = 0;
+function isCircuitComplete() {
 
-    myblocks.set('line3dm', new Line((val) => {
-        const filter = myblocks.get('predictionfilter');
-        const lpf = myblocks.get('lowpassfilter');
-        val.x1 = filter.cx + (lpf.cx - filter.cx) * 0.5;
-        val.y1 = filter.cy + (filter.ch / 2);
-        val.x2 = lpf.cx;
-        val.y2 = filter.cy + (filter.ch / 2);
-        console.log(val);
-    }, 0, 'Predicted Signal'));
 
-    myblocks.set('line4dm', new Line((val) => {
-        const lpf = myblocks.get('lowpassfilter');
-        val.x1 = lpf.cx + lpf.cw;
-        val.y1 = lpf.cy + (lpf.ch / 2);
-        val.x2 = windowWidth * 0.9;
-        val.y2 = val.y1;
-        console.log(val);
-    }, 0, 'Reconstructed \n Message Signal'));
-    */
+    return totalConnection>=7;
 }
 
 function openModal(obj, dblClick = false) {
@@ -154,7 +93,10 @@ function openModal(obj, dblClick = false) {
     }
     const modalName = `#${_modalName}`;
 
-
+    if (!isCircuitComplete()) {
+        alert('Complete all the connections');
+        return ;
+    }
     $(modalName).modal('show');
     $(modalName).on('shown.bs.modal', function () {
         if (modalName === '#sourceWaveGraph') {
@@ -197,6 +139,7 @@ function keyPressed() {
         if (currentSelected) {
             console.log('removing ', currentSelected);
             wireManager.remove(currentSelected);
+            totalConnection--;
             currentSelected = null;
         }
         components = [];
@@ -228,6 +171,9 @@ function mouseClicked() {
                 if (validConnection(components[0].name, components[n - 1].name)) {
                     totalConnection ++;
                     wireManager.addWire(components);
+                    if(totalConnection==7){
+                        showQuizes();
+                    }
                 } else {
                     alert("Invalid Connection. Please check your connections");
                 }
@@ -333,8 +279,8 @@ const questions = {
             "Average energy symbol- log2M",
             "log2M- Average energy symbol"
         ],
-        "answer": "0.687V and 8.6mW"
-    }
+        "answer": "Average energy symbol/ log2M"
+    },
 };
 
 function generateQuizQuestions() {
