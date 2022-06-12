@@ -141,13 +141,7 @@ function plotSine(ctx, amplitude, frequency, xOffset, yOffset, vertical_scaling_
 
 let size_set = false;
 
-// export function getQuantizationLevels() {
-//     var Fs = sampling_frequency_element.value;
-//     var StopTime = 1;
-//     var dt = 1 / Fs; // sampling interval
-//     var t = xrange(0, StopTime + dt, dt); // generates a list of t values seperated by sampling interval
-//     return t.length;
-// }
+
 
 export function drawQuantizedWave() {
     var wave_amplitude = wave_amplitude_element.value*2;

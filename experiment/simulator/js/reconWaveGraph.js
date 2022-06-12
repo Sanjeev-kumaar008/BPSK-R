@@ -184,49 +184,13 @@ function plotSine(ctx, amplitude, frequency, xOffset, yOffset, vertical_scaling_
     document.getElementById("bits").innerHTML = main_sig;
     plotStairCase(ctx, main_signal, vertical_scaling_factor, horizontal_scaling_factor);
 
-    // plotStairCase(ctx, [1, 0, 0, 1, 1, 1, 0, 0], vertical_scaling_factor, horizontal_scaling_factor);
-
-    /*
-    ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "red";
-
-    // Draw the original sine wave.
-    var idx = 0;
-    while (idx < width && idx < x.length) {
-        ctx.lineTo(xOffset + idx * horizontal_scaling_factor, yOffset - vertical_scaling_factor * x[idx]);
-        idx++;
-    }
-
-    // while (x.length < width) {
-    //     x = x.concat(x);
-    // }
-
-    // while (idx < width && idx < x.length) {
-    //     ctx.lineTo(xOffset + idx * horizontal_scaling_factor, yOffset - vertical_scaling_factor * x[idx]);
-    //     idx++;
-    // }
-
-    ctx.stroke();
-    ctx.save();
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText(`Amplitude: ${amplitude}v`, canvas_width - 200, 50, 110);
-    ctx.fillText(`Frequency: ${frequency}Hz`, canvas_width - 200, 80, 110);
-    ctx.closePath();
-    */
+    
 }
 
 
 let size_set = false;
 
-// export function getQuantizationLevels() {
-//     var Fs = sampling_frequency_element.value;
-//     var StopTime = 1;
-//     var dt = 1 / Fs; // sampling interval
-//     var t = xrange(0, StopTime + dt, dt); // generates a list of t values seperated by sampling interval
-//     return t.length;
-// }
+
 
 export function drawReconWave() {
     var wave_amplitude = wave_amplitude_element.value*2;

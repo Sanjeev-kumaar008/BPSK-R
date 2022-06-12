@@ -14,7 +14,7 @@ const wave_frequency_element = document.getElementById("swfrequency");
 const vertical_scale_element = document.getElementById("mod_vertical_scale_factor");
 const horizontal_scale_element = document.getElementById("demod_horizontal_scale_factor");
 const sample_frequency_element = document.getElementById("safrequency");
-const f1=document.getElementById("ipfrequency1");
+// const f1=document.getElementById("ipfrequency1");
 
 // Draws the axes for the graph
 function drawAxes(ctx, orgx, orgy, line_start, line_end) {
@@ -60,7 +60,7 @@ function xrange(start, stop, step) {
 }
 
 // Will draw the sine wave starting from loc xOffset, yOffset
-function plotSine(ctx, amplitude, frequency, xOffset, yOffset, vertical_scaling_factor, horizontal_scaling_factor,f1) {
+function plotSine(ctx, amplitude, frequency, xOffset, yOffset, vertical_scaling_factor, horizontal_scaling_factor) {
     var width = 1000;
 
     
@@ -135,7 +135,7 @@ export function drawEncodedWave() {
     const wave_frequency = wave_frequency_element.value;
     const vertical_scaling_factor = vertical_scale_element.value;
     const horizontal_scaling_factor = horizontal_scale_element.value;
-    const f1_wave=f1.value;
+    // const f1_wave=f1.value;
 
     canvas_height = encodedWaveCanvas.parentElement.clientHeight;
     canvas_width = encodedWaveCanvas.parentElement.clientWidth;
@@ -157,6 +157,6 @@ export function drawEncodedWave() {
     const mid_of_line = (line_start + line_end) / 2;
 
     drawAxes(encodedWaveCtx, orgx, orgy, line_start, line_end);
-    plotSine(encodedWaveCtx, wave_amplitude, wave_frequency, orgx, mid_of_line, vertical_scaling_factor, horizontal_scaling_factor,f1_wave);
+    plotSine(encodedWaveCtx, wave_amplitude, wave_frequency, orgx, mid_of_line, vertical_scaling_factor, horizontal_scaling_factor);
     requestAnimationFrame(drawEncodedWave);
 }
